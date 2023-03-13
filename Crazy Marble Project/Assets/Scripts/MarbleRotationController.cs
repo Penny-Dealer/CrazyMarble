@@ -7,6 +7,8 @@ public class MarbleRotationController : MonoBehaviour
 {
     [field: SerializeField]
     public Vector3 RotationVector { get; private set; }
+    [field: SerializeField]
+    public Camera GameCamera { get; private set; }
 
     private MarbleControls _marbleControls;
 
