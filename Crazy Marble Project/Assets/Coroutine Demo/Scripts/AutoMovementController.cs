@@ -28,42 +28,39 @@ public class AutoMovementController : MonoBehaviour
 
     private IEnumerator HandleMovement()
     {
-        yield return new WaitForSeconds(Delay);
-        IsMoving = true;
-        StartedMovingAt = Time.time;
-        IsMoving = false;
-        Ismovingback = true;
-        StartedMovingbackAt = Time.time;
-        Ismovingback = false;
+        while (true)
+        {
+            yield return new WaitForSeconds(Delay);
+            IsMoving = true;
+            StartedMovingAt = Time.time;
+            yield return new WaitForSeconds(Duration);
+            IsMoving = false;
+            yield return new WaitForSeconds(Delay);
+            IsMovingback = true;
+            StartedMovingbackAt = Time.time;
+            yield return new WaitForSeconds(Duration);
+            IsMovingback = false;
+        }
     }
 
     void FixedUpdate()
     {
-        if (!IsMoving) { return; }
+        if (IsMoving) { 
 
         float timeElapsed = Time.time - StartedMovingAt;
         float percentComplete = Mathf.Clamp01(timeElapsed / Duration);
         Vector3 target = Vector3.Lerp(StartPosition, EndPosition, percentComplete);
         _rigidBody.MovePosition(target);
+        }
+        else if (IsMovingback)
+        {
+            float timeElapsed = Time.time - StartedMovingbackAt;
+        float percentComplete = Mathf.Clamp01(timeElapsed / Duration);
+        Vector3 target = Vector3.Lerp(EndPosition, StartPosition, percentComplete);
+        _rigidBody.MovePosition(target);
+
+        }
     }
 
-    {
-        if (!IsMoving) { return; }
-
-        float timeElapsed = Time.time - StartedMovingAt;
-    float percentComplete = Mathf.Clamp01(timeElapsed / Duration);
-    Vector3 target = Vector3.Lerp(StartPosition, EndPosition, percentComplete);
-    _rigidBody.MovePosition(target);
-    }
-
-if (!IsMovinback) { return; }
-
-float timeElapsed = Time.time - StartedMovingbackAt;
-float percentComplete = Mathf.Clamp01(timeElapsed / Duration);
-Vector3 newtarget = Vector3.Lerp(EndPosition, StartPosition, percentComplete);
-_rigidBody.MovePosition(newtarget);
-    }
-
-    
        
 }
